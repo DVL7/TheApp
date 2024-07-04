@@ -70,4 +70,45 @@ public class Database {
             e.printStackTrace();
         }
     }
+
+    public void returnAll(){
+        try {
+            Statement statement = this.connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM dane");
+            while (resultSet.next()) {
+                String id = resultSet.getString("id");
+                String nazwa = resultSet.getString("nazwa");
+                int wartosc = resultSet.getInt("wartosc");
+                System.out.println("ID: " + id + ", Nazwa: " + nazwa + ", Wartość: " + wartosc);
+            }
+        } catch (SQLException e) {
+            System.out.println("Nie udalo sie pobrac danych z bazy danych.");
+            e.printStackTrace();
+        }
+    }
+
+    public void addRecord(String nazwa, int wartosc) {
+        try {
+            Statement statement = this.connection.createStatement();
+            String sql = "INSERT INTO dane (nazwa, wartosc) VALUES ('" + nazwa + "', " + wartosc + ")";
+            statement.executeUpdate(sql);
+            System.out.println("Dodano nowy rekord do tabeli dane.");
+        } catch (SQLException e) {
+            System.out.println("Nie udalo sie dodac rekordu do bazy danych.");
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteRecord(int id) {
+        try {
+            Statement statement = this.connection.createStatement();
+            String sql = "DELETE FROM dane WHERE id = " + id;
+            statement.executeUpdate(sql);
+            System.out.println("Usunięto rekord o id " + id + " z tabeli dane.");
+        } catch (SQLException e) {
+            System.out.println("Nie udało się usunąć rekordu z bazy danych.");
+            e.printStackTrace();
+        }
+    }
+
 }
