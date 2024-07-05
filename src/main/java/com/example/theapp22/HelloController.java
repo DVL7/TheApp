@@ -6,8 +6,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 
-public class HelloController {
+import java.io.IOException;
 
+public class HelloController {
+    private HelloApplication appInstance;
     @FXML
     private TextField loginField;
     @FXML
@@ -18,19 +20,21 @@ public class HelloController {
     private Button myButton;
 
     @FXML
-    protected void onHelloButtonClick() {
+    protected void onHelloButtonClick() throws IOException {
         String loginText = loginField.getText();
         String passwordText = passwordField.getText();
 
-        // Example credentials, replace with your actual method of verification
-        String correctLogin = "user";
-        String correctPassword = "pass";
 
-        if (loginText.equals(correctLogin) && passwordText.equals(correctPassword)) {
-            System.out.println("Login successful!");
-        } else {
-            System.out.println("Login failed!");
+        Database db = new Database();
+        db.getConnection();
+        boolean loginResult = db.verifyLogin(loginText, passwordText);
+        if (loginResult) {
+            appInstance.switchToDashboardScene();
         }
 
+        db.closeConnection();
+    }
+    public void setAppInstance(HelloApplication app) {
+        this.appInstance = app;
     }
 }

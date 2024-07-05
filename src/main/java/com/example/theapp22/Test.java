@@ -12,7 +12,7 @@ public class Test {
         Database db = new Database();
 
         //db.addRecord("nazwaa",23);
-        db.deleteRecord(9);
+        db.deleteRecord(10);
         db.returnAll();
 
         db.closeConnection();
